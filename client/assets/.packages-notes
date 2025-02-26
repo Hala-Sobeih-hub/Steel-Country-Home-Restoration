@@ -11,17 +11,18 @@ npm install express mongoose dotenv bcrypt cors jsonwebtoken
 
 npm install -D nodemon
 
+## create "client" folder:
+
 npm create vite@latest
+--- choose Y --> . --> React --> Javascript
+
 npm install
 npm run dev
 
 npm install react-router-dom@6.28.1
 
 npm install react-icons
-npm install styled-components
-
-npm remove react-icon
-npm remove style-components
+npm install styled-components (not needed here)
 
 npm install tailwindcss @tailwindcss/vite
 npx tailwindcss init -p

@@ -1,6 +1,6 @@
 const router = require('express').Router() // Import express and create a new router
 
-const Service = require('../models/service') // Import the room model
+const Service = require('../models/service') // Import the service model
 //const authenticateToken = require('../middleware/authenticateToken') // Import the authenticateToken middleware
 
 //POST - 'localhost:3000/api/services' - create a new service - Admin only
@@ -30,7 +30,7 @@ router.post(
     } catch (error) {
       //return a 500 status code and an error message
       res.status(500).json({
-        Error: `${error.message} hala`
+        Error: `${error.message}`
       })
     }
   }
@@ -115,57 +115,62 @@ router.get('/servicename/:name', async (req, res) => {
   }
 })
 
-//Update one - 'localhost:3000/api/services/:id' - update a service by ID - Any User
-router.put('/:_id', async (req, res) => {
-  try {
-    console.log('I am in put')
-    //get the service ID from the request params
-    const { _id } = req.params
+//Update one - 'localhost:3000/api/services/:id' - update a service by ID - Admin Only
+router.put(
+  '/:_id',
+  /* authenticateToken ,*/ async (req, res) => {
+    try {
+      //get the service ID from the request params
+      const { _id } = req.params
 
-    //get the updated service fields from the request body
-    const { name, description, imageUrl } = req.body
+      //get the updated service fields from the request body
+      const { name, description, imageUrl } = req.body
 
-    const updatedService = { name, description, imageUrl }
+      const updatedService = { name, description, imageUrl }
 
-    //find the service and update its fields
-    await Service.findByIdAndUpdate(_id, updatedService)
+      //find the service and update its fields
+      await Service.findByIdAndUpdate(_id, updatedService)
 
-    res.status(200).json({
-      result: updatedService,
-      message: 'Service was updated!'
-    })
-  } catch (error) {
-    //return a 500 status code and an error message
-    res.status(500).json({
-      Error: error.message
-    })
-  }
-})
-
-//Delete one - 'localhost:3000/api/services/:id' - delete a service by ID - Any User
-router.delete('/:_id', async (req, res) => {
-  try {
-    //get the service ID from the request params
-    const { _id } = req.params
-
-    //find service by ID and delete it
-    const serviceToBeDeleted = await Service.findByIdAndDelete(_id)
-
-    if (!serviceToBeDeleted) {
-      return res.status(400).json({
-        message: 'No service was found'
+      res.status(200).json({
+        result: updatedService,
+        message: 'Service was updated!'
+      })
+    } catch (error) {
+      //return a 500 status code and an error message
+      res.status(500).json({
+        Error: error.message
       })
     }
-    res.status(200).json({
-      result: serviceToBeDeleted,
-      message: `Service "${serviceToBeDeleted.name}" was deleted successfully.`
-    })
-  } catch (error) {
-    //return a 500 status code and an error message
-    res.status(500).json({
-      Error: error.message
-    })
   }
-})
+)
+
+//Delete one - 'localhost:3000/api/services/:id' - delete a service by ID - Admin Only
+router.delete(
+  '/:_id',
+  /* authenticateToken ,*/ async (req, res) => {
+    try {
+      //get the service ID from the request params
+      const { _id } = req.params
+
+      //find service by ID and delete it
+      const serviceToBeDeleted = await Service.findByIdAndDelete(_id)
+
+      if (!serviceToBeDeleted) {
+        return res.status(400).json({
+          message: 'No service was found'
+        })
+      }
+      res.status(200).json({
+        result: serviceToBeDeleted,
+        message: `Service "${serviceToBeDeleted.name}" was deleted successfully.`
+      })
+    } catch (error) {
+      //return a 500 status code and an error message
+      res.status(500).json({
+        Error: error.message
+      })
+    }
+  }
+)
 
 module.exports = router

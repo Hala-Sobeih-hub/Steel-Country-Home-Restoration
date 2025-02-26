@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import NavBarAdmin from "../Components/NavBar-Admin"; //Hala
+import NavBarAdmin from "../Components/NavBar-Admin";
 import Footer from "../Components/Footer";
 
 const API = "http://localhost:3000/api/services";

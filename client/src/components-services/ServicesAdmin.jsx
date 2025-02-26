@@ -7,7 +7,6 @@ const API = "http://localhost:3000/api/services";
 export default function ServicesAdmin() {
   const navigate = useNavigate();
 
-  //Create a services state variable
   const [services, setServices] = useState([]); //Create the services state variable
   const [message, setMessage] = useState(""); // Create the message state variable
 
