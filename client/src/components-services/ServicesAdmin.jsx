@@ -27,21 +27,21 @@ export default function ServicesAdmin() {
         //Authorization: `${token}`, // Send the token in the Authorization header
       },
     })
-      .then((response) => response.json()) // Parse the response as JSON)
+      .then((response) => response.json()) // Parse the response as JSON
       .then((data) => setMessage(data.message))
       .catch((error) => console.log(error));
   };
 
   const addService = () => {
-    alert("Adding a new service!");
+    //    alert("Adding a new service!");
     navigate("/admin/services/add-service");
   };
 
   const updateService = (index) => {
-    alert(`Edit service: ${services[index].name}`);
+    //  alert(`Edit service: ${services[index].name}`);
     navigate("/admin/services/update-service", {
       //state: { _id: services[index]._id, serviceName: services[index].name },
-      state: { service: services[index] },
+      state: { service: services[index] }, //pass the service to be updated
     });
   };
 
@@ -98,13 +98,13 @@ export default function ServicesAdmin() {
                   className="actions" /*flex justify-between items-center p-4*/
                 >
                   <button
-                    className=" action-button rounded-lg p-3 text-xl bg-[#4a9cd3]"
+                    className=" action-button rounded-lg p-3 text-xl bg-[#4a9cd3] text-white"
                     onClick={() => deleteService(index)}
                   >
                     Delete
                   </button>
                   <button
-                    className="action-button rounded-lg p-3 text-xl bg-[#4a9cd3]"
+                    className="action-button rounded-lg p-3 text-xl bg-[#4a9cd3] text-white"
                     onClick={() => updateService(index)}
                   >
                     Edit

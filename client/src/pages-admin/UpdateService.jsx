@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom"; //provides access to the current location object.
+import { useLocation } from "react-router-dom"; //allows functional components to access to the current location object. This object contains information about the current URL, such as the pathname, search parameters, and state.
 
 import NavBarAdmin from "../Components/NavBar-Admin"; //Hala
 import Footer from "../Components/Footer";
@@ -10,10 +10,10 @@ const API = "http://localhost:3000/api/services";
 export default function UpdateService() {
   const navigate = useNavigate();
   const location = useLocation(); // Get the passed state
-  // const serviceToBeUpdated = location.state?.serviceName; // Extract message safely
+  // const serviceToBeUpdated = location.state?.serviceName;
   // const _id = location.state?._id;
 
-  const serviceToBeUpdated = location.state?.service;
+  const serviceToBeUpdated = location.state?.service; // Extract message safely
   const _id = location.state?.service._id;
 
   // Initialize state with existing service values
