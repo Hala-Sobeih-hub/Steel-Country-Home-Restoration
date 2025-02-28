@@ -1,9 +1,9 @@
 import React from "react";
-
 import NavBar from "../Components/NavBar"; //Hala
 import Footer from "../Components/Footer";
 import Slideshow from "../Components/Slideshow";
 import ServicesList from "../components-services/ServicesList";
+import About from "./About";
 
 export default function Home() {
   return (
@@ -23,6 +23,7 @@ export default function Home() {
           </button>
         </div>
       </div>
+      <About />
       <h1 className="text-5xl font-bold text-center my-8">Services</h1>
       <p className="mx-10">
         Offering roofing, drywall, painting, pressure washing, gutters, soffit,
