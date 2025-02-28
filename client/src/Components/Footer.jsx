@@ -5,7 +5,7 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
 export default function Footer() {
   return (
-    <div className="bg-[#4a9cd3] py-5">
+    <div id="contact-jump" className="bg-[#4a9cd3] py-5">
       {/* to horizontally align the contact info, map and Contact Us button */}
       <div className="flex flex-row items-center justify-center space-x-20">
         {/* Contact Information */}
