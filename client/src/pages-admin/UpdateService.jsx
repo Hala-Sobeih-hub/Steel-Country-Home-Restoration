@@ -123,7 +123,7 @@ export default function UpdateService() {
           <div className="flex justify-around">
             <button
               type="submit"
-              className="w-1/3 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+              className="w-1/3 bg-[#4a9cd3] text-white py-2 rounded-lg hover:bg-blue-500 transition duration-300"
               // onClick={() => {
               //   //handleSubmit();
 

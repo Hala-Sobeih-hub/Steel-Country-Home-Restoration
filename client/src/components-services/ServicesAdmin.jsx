@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react"; // Import the useEffect and useState hooks
 import { useNavigate } from "react-router-dom";
-import "./ServicesAdmin.css";
+//import "./ServicesAdmin.css";
+import "../styling/AdminTables.css";
+import "../styling/ToastStyling.css";
+
+//Toast Warning and Success imports
+import ToastWarningDisplay from "../components-toasts/ToastWarningDisplay";
+import ToastSuccessDisplay from "../components-toasts/ToastSuccessDisplay";
 
 const API = "http://localhost:3000/api/services";
 
@@ -33,17 +39,27 @@ export default function ServicesAdmin() {
   };
 
   const addService = () => {
-    //    alert("Adding a new service!");
     navigate("/admin/services/add-service");
   };
 
   const updateService = (index) => {
-    //  alert(`Edit service: ${services[index].name}`);
     navigate("/admin/services/update-service", {
       //state: { _id: services[index]._id, serviceName: services[index].name },
       state: { service: services[index] }, //pass the service to be updated
     });
   };
+
+  // This useEffect will clear the message after the success toast is shown
+  useEffect(() => {
+    if (message) {
+      // After showing the toast, clear the message after a short delay
+      const timer = setTimeout(() => {
+        setMessage("");
+      }, 5000); // Clear after 5 seconds
+
+      return () => clearTimeout(timer); // Cleanup the timeout on unmount
+    }
+  }, [message]);
 
   return (
     <div>
@@ -51,8 +67,8 @@ export default function ServicesAdmin() {
         Services - Admin Dashboard
       </h1>
 
-      <div className="services-container">
-        <table className="services-table" /*border-1 place-self-center*/>
+      <div className="dashboard-container">
+        <table className="dashboard-table" /*border-1 place-self-center*/>
           <thead>
             <tr
               className="table-title" /*place-self-center text-2xl table-auto border border-gray-500*/
@@ -97,31 +113,37 @@ export default function ServicesAdmin() {
                 <td
                   className="actions" /*flex justify-between items-center p-4*/
                 >
-                  <button
-                    className=" action-button rounded-lg p-3 text-xl bg-[#4a9cd3] text-white"
-                    onClick={() => deleteService(index)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="action-button rounded-lg p-3 text-xl bg-[#4a9cd3] text-white"
-                    onClick={() => updateService(index)}
-                  >
-                    Edit
-                  </button>
+                  <div className="button-group">
+                    {/* Edit button> */}
+                    <button
+                      className="action-button rounded-lg p-3 text-xl bg-[#4a9cd3] text-white"
+                      onClick={() => updateService(index)}
+                    >
+                      Edit
+                    </button>
+                    {/* Delete button> */}
+                    {/* pass the deleteService function, index and message as props*/}
+                    <ToastWarningDisplay
+                      onCall={deleteService}
+                      index={index}
+                      message={"Are you sure you want to delete this service?"}
+                    />
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        {/* Toast Success Display should only be shown if there's a message */}
         {message && (
-          <p
-            className="confirmDelete"
-            // style={{ color: "red", fontSize: "large" }}
-          >
-            {message}
-          </p>
-        )}{" "}
+          <>
+            {console.log(`from the main: ${message}`)}{" "}
+            {/* You should see this log */}
+            <ToastSuccessDisplay message={message} />
+          </>
+        )}
+
         <div className="addContainer">
           <button
             className="add-button rounded-lg p-3 text-xl bg-[#4a9cd3]"
