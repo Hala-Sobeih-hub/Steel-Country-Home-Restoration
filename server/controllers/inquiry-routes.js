@@ -6,22 +6,33 @@ const Inquiry = require('../models/inquiry') // Import the inquiries model
 router.post('/', async (req, res) => {
   try {
     //get request body
-    const { name, email, phone, address, service, message } = req.body
+    const { name, email, phone, address, services, description } = req.body
 
-    if (!name || !email || !phone || !address || !service || !message) {
+    // console.log(
+    //   `From POST: ${name}, ${email}, ${phone}, ${address}, ${services}, ${description}`
+    // )
+
+    if (!Array.isArray(services) || services.length === 0) {
+      return res.status(400).json({
+        message: 'At least one service has to be selected!'
+      })
+    }
+
+    if (!name || !email || !phone || !address || !services || !description) {
       // If any of the fields are missing
-      return res.status(401).json({
+      return res.status(400).json({
         message: 'All Fields are Required!' // Return a 401 status code and a message
       })
     }
+
     //create a new inquiry object
     const newInquiry = new Inquiry({
       name,
       email,
       phone,
       address,
-      service,
-      message,
+      services,
+      description,
       status: 'New',
       adminNotes: ''
     })
@@ -29,7 +40,7 @@ router.post('/', async (req, res) => {
     //save new inquiry to database
     await newInquiry.save()
 
-    res.status(200).json({
+    res.status(201).json({
       result: newInquiry,
       message: 'Inquiry was created successfully'
     })
@@ -51,7 +62,7 @@ router.get(
 
       if (inquiries.length === 0) {
         //no inquiries are found in the database
-        return res.status(400).json({
+        return res.status(404).json({
           message: 'No inquiries are found!'
         })
       }
@@ -81,7 +92,7 @@ router.get(
 
       //if no inquiry matches the given ID
       if (!inquiry) {
-        return res.status(400).json({
+        return res.status(404).json({
           message: 'Inquiry not found!'
         })
       }
@@ -125,6 +136,10 @@ router.put(
         options
       )
 
+      if (!updatedInquiry) {
+        return res.status(404).json({ message: 'Inquiry not found!' })
+      }
+
       res.status(200).json({
         result: updatedInquiry,
         message: 'Inquiry was updated!'
@@ -150,7 +165,7 @@ router.delete(
       const inquiryToBeDeleted = await Inquiry.findByIdAndDelete(_id)
 
       if (!inquiryToBeDeleted) {
-        return res.status(400).json({
+        return res.status(404).json({
           message: 'No inquiry was found'
         })
       }

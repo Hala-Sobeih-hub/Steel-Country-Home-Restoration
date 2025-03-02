@@ -5,7 +5,7 @@ import { FaBars, FaHome } from "react-icons/fa";
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  //const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
     <div className="relative h-[15vh]">

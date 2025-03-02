@@ -16,9 +16,6 @@ export default function AddService() {
 
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevents page refresh
-    // console.log(serviceName);
-    // console.log(description);
-    // console.log(imageUrl);
 
     const newService = {
       name,
@@ -32,32 +29,36 @@ export default function AddService() {
         "Content-Type": "application/json",
         //Authorization: `${token}`, // Send the token in the Authorization header
       },
-      body: JSON.stringify(newService),
+      body: JSON.stringify(newService), //sending the newService object as JSON.
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to add service");
-        }
-        return response.json();
+        //response.json() is asynchronous, and it returns a Promise that resolves with the parsed JSON body of the response.
+        return response.json().then((data) => {
+          if (!response.ok) {
+            throw new Error(data.message || "Failed to add service");
+          }
+          return data;
+        });
       })
       .then((data) => {
         setMessage(data.message || "Service added successfully!");
-        // Optionally, reset the form fields after successful submission
+
+        // Reset form fields
         setName("");
         setDescription("");
         setImageUrl("");
+
+        // Navigate only after showing the success message
+        setTimeout(() => {
+          navigate("/admin/services", {
+            state: { message: "Service added successfully!" },
+          });
+        }, 1000);
       })
       .catch((error) => {
         console.error("Error:", error);
-        setMessage("Error adding service");
+        setMessage(error.message); // Show the correct error message
       });
-
-    //setMessage("Service added successfully!");
-
-    // Navigate to the services page and pass the success message
-    navigate("/admin/services", {
-      state: { message: message || "Service updated successfully!" },
-    });
   };
 
   return (
@@ -77,50 +78,53 @@ export default function AddService() {
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2">
               Service Name
+              <input
+                type="text"
+                id="name"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter service name"
+                onChange={(e) => {
+                  setName(e.target.value);
+                  // console.log(serviceName);
+                  // setMessage(serviceName);
+                }}
+              />
             </label>
-            <input
-              type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter service name"
-              onChange={(e) => {
-                setName(e.target.value);
-                // console.log(serviceName);
-                // setMessage(serviceName);
-              }}
-            />
           </div>
 
           {/* Description */}
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2">
               Description
+              <textarea
+                id="description"
+                className=" w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter service description"
+                rows="4"
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
             </label>
-            <textarea
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter service description"
-              rows="4"
-              onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
           </div>
 
           {/* Image URL */}
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2">
               Image URL
+              <input
+                type="text"
+                id="image"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter image URL"
+                onChange={(e) => setImageUrl(e.target.value)}
+              />
             </label>
-            <input
-              type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter image URL"
-              onChange={(e) => setImageUrl(e.target.value)}
-            />
           </div>
 
           {/* Buttons */}
           <div className="flex justify-around">
             <button
               type="submit"
-              className="w-1/3 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+              className="w-1/3 bg-[#4a9cd3] text-white py-2 rounded-lg hover:bg-blue-500 transition duration-300"
               // onClick={() => {
               //   //handleSubmit();
 
@@ -135,15 +139,12 @@ export default function AddService() {
             >
               Cancel
             </button>
-            {message && (
-              <p
-                className="confirmAdd"
-                style={{ color: "red", fontSize: "large" }}
-              >
-                {message}
-              </p>
-            )}{" "}
           </div>
+          {message && (
+            <p className="confirmAdd text-red-500 text-xl p-4 text-center">
+              {message}
+            </p>
+          )}
         </form>
       </div>
       <Footer />

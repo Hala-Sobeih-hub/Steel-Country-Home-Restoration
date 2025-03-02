@@ -2,6 +2,7 @@ import React from "react";
 import { FaFacebook, FaPhone, FaEnvelope } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import InquiryButton from "../Components/InquiryButton";
 
 export default function Footer() {
   return (
@@ -57,9 +58,10 @@ export default function Footer() {
 
         {/* Contact Button */}
         <div>
-          <button className="bg-white text-[#4a9cd3] rounded-lg px-5 py-3 text-xl font-bold hover:bg-gray-200 transition">
+          {/* <button className="bg-white text-[#4a9cd3] rounded-lg px-5 py-3 text-xl font-bold hover:bg-gray-200 transition">
             Contact Us
-          </button>
+          </button> */}
+          <InquiryButton />
         </div>
       </div>
     </div>

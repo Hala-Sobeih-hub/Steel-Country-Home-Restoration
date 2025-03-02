@@ -39,6 +39,8 @@ npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons
 npm install react-slick slick-carousel
 npm install axios
 
+npm install react-toastify
+
 ## in package.json, add the following under "scripts"
 
 ,

@@ -9,17 +9,23 @@ export default function AdminServices() {
   const location = useLocation(); // Get the passed state
   const passedMessage = location.state?.message; // Extract message safely
 
-  const [message, setMessage] = useState(passedMessage || ""); // Store message in state
+  console.log(passedMessage);
 
+  const [message, setMessage] = useState("");
+
+  // Use useEffect to set the message only when component mounts
   useEffect(() => {
-    if (message) {
+    if (passedMessage) {
+      setMessage(passedMessage); // Set the passed message
+
+      // Clear message after 5 seconds
       const timer = setTimeout(() => {
-        setMessage(""); // Clear message after 5 seconds
+        setMessage("");
       }, 5000);
 
       return () => clearTimeout(timer); // Cleanup function to prevent memory leaks
     }
-  }, [message]);
+  }, [passedMessage]); // Run only when passedMessage changes
 
   return (
     <div>
