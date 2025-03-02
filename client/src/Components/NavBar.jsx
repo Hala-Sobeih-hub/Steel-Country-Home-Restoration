@@ -150,10 +150,10 @@ export default function NavBar() {
               </div>
             </li>
             <li className="hover:text-black text-2xl">
-              <a href="/about">About</a>
+              <a href="#about-jump">About</a>
             </li>
             <li className="hover:text-black text-2xl">
-              <a href="/contact">Contact</a>
+              <a href="#contact-jump">Contact</a>
             </li>
             <li className="hover:text-black text-2xl font-bold">
               <a href="/inquiry">Get A Free Estimate</a>
